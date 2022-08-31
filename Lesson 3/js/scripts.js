@@ -1,7 +1,6 @@
 window.addEventListener('load', function(){
 	const menu = document.querySelector('.menu');
-   const links = this.document.querySelectorAll('.menu .menu__link')
-   const goTopBtn = this.document.querySelector('.to-top');
+   const goTopBtn = document.querySelector('.to-top');
 	const goTopBtnClass = goTopBtn.classList;
    let headings = {
       about,
@@ -9,26 +8,24 @@ window.addEventListener('load', function(){
       app,
       nz
    }
+
    let headingsHeight= {};
+
    for (let [key, value] of Object.entries(headings)) {
-      headingsHeight[key] = value.offsetTop
+      headingsHeight[key] = value.offsetTop;
    }
 
-   function test() {
-   let i = 0;
-   for (value in headingsHeight) {
-      if (window.scrollY + menu.offsetHeight + 50 > headingsHeight[value] ) {
-         links[i].classList.add('menu__link-active');
-         if (i > 0) {
-            links[i-1].classList.remove('menu__link-active');
-         }
-         i = i+1;   
-      } 
+   function menuSwitch() {
+      for (value in headingsHeight) {
+         let currElem = document.querySelector('[href*="' + value + '"]');
 
-
-   }   
+         if (window.scrollY + menu.offsetHeight*5 >= headingsHeight[value] ) {
+            document.querySelector('.menu__link-active').setAttribute('class', 'menu__link')
+            currElem.classList.add('menu__link-active');
+         } 
+      }   
 }
-   test()
+
 	if(window.location.hash != ''){
 		scrollToId(window.location.hash);
 	}
@@ -41,9 +38,6 @@ window.addEventListener('load', function(){
 		
 			let link = e.target;
 			scrollToId(link.hash);
-
-			menu.querySelector('.menu__link-active').classList.remove('menu__link-active');
-			link.classList.add('menu__link-active');
 		}
 	});
 
@@ -60,15 +54,17 @@ window.addEventListener('load', function(){
       }
    }
 
-   document.addEventListener('scroll', () => (window.innerHeight + window.scrollY) / document.body.offsetHeight * 100 >= 80 ? goTopBtnClass.remove('hidden') : goTopBtnClass.add('hidden')
+   document.addEventListener('scroll', () => (window.innerHeight + window.scrollY) / document.body.offsetHeight * 100 >= 80 ? goTopBtnClass.remove('hidden') : goTopBtnClass.add('hidden') // show scroll to top btn
    , {
       capture: true,
       passive: true
     });
-    document.addEventListener('scroll', test
+
+
+    document.addEventListener('scroll', menuSwitch
     , {
        capture: true,
-       passive: false
+       passive: true
      });
  
 
