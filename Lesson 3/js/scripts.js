@@ -1,6 +1,6 @@
 window.addEventListener('load', function(){
 	const menu = document.querySelector('.menu');
-   const goTopBtn = this.document.querySelector('.to-top');
+   const goTopBtn = document.querySelector('.to-top');
 	const goTopBtnClass = goTopBtn.classList;
    let headings = {
       about,
@@ -8,12 +8,24 @@ window.addEventListener('load', function(){
       app,
       nz
    }
-   function test() {
+
+   let headingsHeight= {};
+
    for (let [key, value] of Object.entries(headings)) {
-      console.log(headings[key] = headings[key].offsetTop)
-      console.log('data ' + window.scrollY)
-   }}
-   function test()
+      headingsHeight[key] = value.offsetTop;
+   }
+
+   function menuSwitch() {
+      for (value in headingsHeight) {
+         let currElem = document.querySelector('[href*="' + value + '"]');
+
+         if (window.scrollY + menu.offsetHeight*5 >= headingsHeight[value] ) {
+            document.querySelector('.menu__link-active').setAttribute('class', 'menu__link')
+            currElem.classList.add('menu__link-active');
+         } 
+      }   
+}
+
 	if(window.location.hash != ''){
 		scrollToId(window.location.hash);
 	}
@@ -26,9 +38,6 @@ window.addEventListener('load', function(){
 		
 			let link = e.target;
 			scrollToId(link.hash);
-
-			menu.querySelector('.menu__link-active').classList.remove('menu__link-active');
-			link.classList.add('menu__link-active');
 		}
 	});
 
@@ -45,12 +54,14 @@ window.addEventListener('load', function(){
       }
    }
 
-   document.addEventListener('scroll', () => (window.innerHeight + window.scrollY) / document.body.offsetHeight * 100 >= 80 ? goTopBtnClass.remove('hidden') : goTopBtnClass.add('hidden')
+   document.addEventListener('scroll', () => (window.innerHeight + window.scrollY) / document.body.offsetHeight * 100 >= 80 ? goTopBtnClass.remove('hidden') : goTopBtnClass.add('hidden') // show scroll to top btn
    , {
       capture: true,
       passive: true
     });
-    document.addEventListener('scroll', test
+
+
+    document.addEventListener('scroll', menuSwitch
     , {
        capture: true,
        passive: true
