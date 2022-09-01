@@ -40,9 +40,11 @@ html, body{
    border: 0;
    cursor: pointer;
    opacity: 1;
-   transition: opacity 0.2s linear;
+   visibility: visible;
+   transition: opacity 0.5s, visibility 0.5s;
 }
 .to-top.hidden {
    opacity: 0;
-   transition: opacity 0.2s linear;
+   visibility: hidden;
+
 }
