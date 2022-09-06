@@ -1,11 +1,11 @@
 window.addEventListener('load', function(){
    class Slider {
+      currentImg = 0;
       constructor(el) {
          this.element = document.querySelector(el);
          this.images = this.element.querySelectorAll('.photos img');
          this.btnNext = this.element.querySelector('.buttons .next');
          this.btnPrev = this.element.querySelector('.buttons .prev');
-         this.currentImg = 0;
          this.init();
       }
 
